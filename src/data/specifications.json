@@ -1,0 +1,77 @@
+[
+    {
+        "id": "1",
+        "key": "material",
+        "nameEn": "Material",
+        "nameAr": "المادة",
+        "type": "text",
+        "unit": "",
+        "options": [],
+        "required": true
+    },
+    {
+        "id": "2",
+        "key": "thickness",
+        "nameEn": "Thickness",
+        "nameAr": "السماكة",
+        "type": "number",
+        "unit": "mm",
+        "options": [],
+        "required": true
+    },
+    {
+        "id": "3",
+        "key": "fireRating",
+        "nameEn": "Fire Rating",
+        "nameAr": "تصنيف الحريق",
+        "type": "dropdown",
+        "unit": "min",
+        "options": [
+            "30",
+            "60",
+            "90",
+            "120"
+        ],
+        "required": false
+    },
+    {
+        "id": "4",
+        "key": "soundInsulation",
+        "nameEn": "Sound Insulation",
+        "nameAr": "عزل الصوت",
+        "type": "number",
+        "unit": "dB Rw",
+        "options": [],
+        "required": false
+    },
+    {
+        "id": "5",
+        "key": "finish",
+        "nameEn": "Finish",
+        "nameAr": "التشطيب",
+        "type": "text",
+        "unit": "",
+        "options": [],
+        "required": true
+    },
+    {
+        "id": "6",
+        "key": "weight",
+        "nameEn": "Weight",
+        "nameAr": "الوزن",
+        "type": "number",
+        "unit": "kg",
+        "options": [],
+        "required": false
+    },
+    {
+        "id": "7",
+        "key": "dimensions",
+        "nameEn": "Dimensions",
+        "nameAr": "الأبعاد",
+        "type": "text",
+        "unit": "",
+        "options": [],
+        "required": true
+    }
+]

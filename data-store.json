@@ -1,0 +1,394 @@
+{
+  "products": [
+    {
+      "id": "solid-oak-pivot",
+      "nameEn": "The Royal Oak Entry",
+      "nameAr": "مدخل البلوط الملكي",
+      "descEn": "A masterpiece of industrial craftsmanship designed for modern luxury entrances. Solid core teak with precision-milled detailing.",
+      "descAr": "تحفة من الحرفية الصناعية مصممة للمداخل الفاخرة الحديثة. قلب صلب من خشب الساج مع تفاصيل دقيقة.",
+      "category": "exterior",
+      "seriesEn": "Joint Venture Series",
+      "seriesAr": "سلسلة المشاريع المشتركة",
+      "badges": [
+        "Made to Order",
+        "Joint Venture Series"
+      ],
+      "image": "/images/products/oak-pivot.jpg",
+      "images": [],
+      "finishes": [
+        {
+          "name": "Natural Oak",
+          "color": "#C8944A"
+        },
+        {
+          "name": "Dark Walnut",
+          "color": "#5C4033"
+        },
+        {
+          "name": "Mahogany",
+          "color": "#8B2500"
+        },
+        {
+          "name": "Espresso",
+          "color": "#3C1414"
+        },
+        {
+          "name": "Charcoal",
+          "color": "#2C2C2C"
+        }
+      ],
+      "specs": {
+        "material": "Solid Teak / Oak Veneer",
+        "dimensions": "2400 x 1200 x 80mm",
+        "fireRating": "FD30 / FD61 Available",
+        "finish": "Natural Oil",
+        "soundInsulation": "35 dB Rw",
+        "thickness": "44mm / 54mm",
+        "weight": "35"
+      },
+      "ref": "WDF-2024-OAK",
+      "price": 4500,
+      "priceTiers": [
+        {
+          "min": 1,
+          "price": 4500
+        },
+        {
+          "min": 5,
+          "price": 4200
+        },
+        {
+          "min": 10,
+          "price": 3800
+        },
+        {
+          "min": 15,
+          "price": 3600
+        }
+      ],
+      "showInStore": true
+    },
+    {
+      "id": "walnut-interior",
+      "nameEn": "The Nordic Ash",
+      "nameAr": "رماد الشمال",
+      "descEn": "Luxurious interior door with rich walnut veneer and modern geometric routing. Clean Scandinavian-inspired design.",
+      "descAr": "باب داخلي فاخر بقشرة الجوز الغنية ونقوش هندسية حديثة. تصميم نظيف مستوحى من الطراز الاسكندنافي.",
+      "category": "interior",
+      "seriesEn": "Interior Series",
+      "seriesAr": "السلسلة الداخلية",
+      "badges": [
+        "Best Seller"
+      ],
+      "image": "/images/products/walnut-interior.jpg",
+      "images": [],
+      "finishes": [
+        {
+          "name": "Light Ash",
+          "color": "#D4BE8D"
+        },
+        {
+          "name": "Natural Oak",
+          "color": "#C8944A"
+        },
+        {
+          "name": "White Wash",
+          "color": "#F5F0E8"
+        }
+      ],
+      "specs": {
+        "material": "American Walnut Veneer",
+        "dimensions": "2100 x 900 x 45mm",
+        "finish": "Lacquered Matte",
+        "soundInsulation": "32 dB Rw",
+        "thickness": "44mm"
+      },
+      "ref": "WDF-2024-WAL",
+      "price": 1200,
+      "showInStore": true
+    },
+    {
+      "id": "fire-rated-fd60",
+      "nameEn": "FD60 Fire Shield",
+      "nameAr": "درع الحماية FD60",
+      "descEn": "Certified 60-minute fire rated door. Ideal for commercial and hospitality projects with the highest safety standards.",
+      "descAr": "باب مقاوم للحريق معتمد لمدة 60 دقيقة. مثالي للمشاريع التجارية والضيافة بأعلى معايير السلامة.",
+      "category": "fire-rated",
+      "seriesEn": "Safety Series",
+      "seriesAr": "سلسلة الأمان",
+      "badges": [
+        "Fire Certified",
+        "Made to Order"
+      ],
+      "image": "/images/products/fire-rated.jpg",
+      "images": [],
+      "finishes": [
+        {
+          "name": "White",
+          "color": "#F5F0E8"
+        },
+        {
+          "name": "Light Grey",
+          "color": "#B0B0B0"
+        },
+        {
+          "name": "Oak",
+          "color": "#C8944A"
+        }
+      ],
+      "specs": {
+        "material": "Solid Core Composite",
+        "dimensions": "2100 x 1000 x 54mm",
+        "fireRating": "FD60 / BS 476-22",
+        "finish": "HPL Laminate",
+        "soundInsulation": "38 dB Rw",
+        "thickness": "54mm"
+      },
+      "ref": "WDF-2024-FR60",
+      "price": 2800,
+      "showInStore": true
+    },
+    {
+      "id": "carved-traditional",
+      "nameEn": "The Heritage Carved",
+      "nameAr": "المنقوش التراثي",
+      "descEn": "Hand-carved door inspired by Najdi architectural patterns. A masterpiece of Saudi craftsmanship blending tradition and modernity.",
+      "descAr": "باب منقوش يدوياً مستوحى من الأنماط المعمارية النجدية. تحفة من الحرفية السعودية تمزج بين التقليد والحداثة.",
+      "category": "custom",
+      "seriesEn": "Heritage Collection",
+      "seriesAr": "مجموعة التراث",
+      "badges": [
+        "Handcrafted",
+        "Limited Edition"
+      ],
+      "image": "/images/products/carved-traditional.jpg",
+      "images": [],
+      "finishes": [
+        {
+          "name": "Dark Teak",
+          "color": "#5C4033"
+        },
+        {
+          "name": "Natural Teak",
+          "color": "#C8944A"
+        },
+        {
+          "name": "Ebony",
+          "color": "#2C2C2C"
+        }
+      ],
+      "specs": {
+        "material": "Teak Wood",
+        "dimensions": "2400 x 1400 x 70mm",
+        "finish": "Hand-rubbed Wax",
+        "thickness": "70mm"
+      },
+      "ref": "WDF-2024-CRV",
+      "price": 8500
+    },
+    {
+      "id": "modern-flush",
+      "nameEn": "The Modernist Glass",
+      "nameAr": "الزجاج العصري",
+      "descEn": "Clean minimalist flush door with invisible hinges and tempered glass panel. Contemporary elegance for modern interiors.",
+      "descAr": "باب مسطح بسيط وعصري مع مفصلات مخفية ولوح زجاجي مقسى. أناقة معاصرة للداخليات الحديثة.",
+      "category": "interior",
+      "seriesEn": "Office Collection",
+      "seriesAr": "مجموعة المكاتب",
+      "badges": [
+        "New Arrival"
+      ],
+      "image": "/images/products/modern-flush.jpg",
+      "images": [],
+      "finishes": [
+        {
+          "name": "Pure White",
+          "color": "#FFFFFF"
+        },
+        {
+          "name": "Light Grey",
+          "color": "#B0B0B0"
+        },
+        {
+          "name": "Oak",
+          "color": "#C8944A"
+        }
+      ],
+      "specs": {
+        "material": "MDF with Oak Veneer",
+        "dimensions": "2100 x 800 x 40mm",
+        "finish": "Spray Lacquer White",
+        "soundInsulation": "30 dB Rw",
+        "thickness": "40mm"
+      },
+      "ref": "WDF-2024-FLS",
+      "price": 1800
+    },
+    {
+      "id": "double-entry",
+      "nameEn": "The Imperial Double",
+      "nameAr": "المزدوج الإمبراطوري",
+      "descEn": "Imposing double-leaf entry door with sidelights. Makes a bold architectural statement for grand exteriors.",
+      "descAr": "باب مدخل مزدوج الأوراق مع إضاءة جانبية. يصنع بياناً معمارياً جريئاً للواجهات الفخمة.",
+      "category": "exterior",
+      "seriesEn": "Exterior Entry",
+      "seriesAr": "مدخل خارجي",
+      "badges": [
+        "Made to Order",
+        "Premium"
+      ],
+      "image": "/images/products/double-entry.jpg",
+      "images": [],
+      "finishes": [
+        {
+          "name": "Mahogany",
+          "color": "#8B2500"
+        },
+        {
+          "name": "Dark Walnut",
+          "color": "#5C4033"
+        },
+        {
+          "name": "Natural Oak",
+          "color": "#C8944A"
+        },
+        {
+          "name": "Charcoal",
+          "color": "#2C2C2C"
+        }
+      ],
+      "specs": {
+        "material": "Iroko Wood",
+        "dimensions": "2800 x 2000 x 90mm",
+        "finish": "Stained Dark Mahogany",
+        "soundInsulation": "40 dB Rw",
+        "thickness": "90mm"
+      },
+      "ref": "WDF-2024-DBL",
+      "price": 12000
+    }
+  ],
+  "projects": [
+    {
+      "id": "red-sea-project",
+      "titleEn": "The Red Sea Project",
+      "titleAr": "مشروع البحر الأحمر",
+      "descEn": "The Red Sea Project is a visionary tourism destination... our factory provided over 500 bespoke fire-rated doors and complex wall paneling systems that reflect the natural beauty of the Red Sea coast.",
+      "descAr": "مشروع البحر الأحمر هو وجهة سياحية رؤيوية... قدم مصنعنا أكثر من 500 باب مقاوم للحريق مصمم خصيصاً وأنظمة تكسية جدران معقدة تعكس الجمال الطبيعي لساحل البحر الأحمر.",
+      "category": "Hospitality",
+      "subcategory": "Interior Doors & Paneling",
+      "status": "published",
+      "tags": [
+        "Luxury",
+        "Interior",
+        "Wall Cladding"
+      ],
+      "images": [
+        "/images/projects/red-sea-1.jpg",
+        "/images/projects/red-sea-2.jpg"
+      ],
+      "featuredImage": "/images/projects/red-sea-1.jpg",
+      "lastEdited": "2 hours ago"
+    },
+    {
+      "id": "riyadh-private-villa",
+      "titleEn": "Riyadh Private Villa",
+      "titleAr": "فيلا خاصة بالرياض",
+      "descEn": "A prestigious private villa project featuring custom-designed solid wood doors throughout, including a monumental 4-meter pivot entrance.",
+      "descAr": "مشروع فيلا خاصة مرموقة تضم أبواب خشبية صلبة مصممة خصيصاً في جميع أنحائها، بما في ذلك مدخل محوري ضخم بارتفاع 4 أمتار.",
+      "category": "Residential",
+      "subcategory": "Main Entrance",
+      "status": "published",
+      "tags": [
+        "Residential",
+        "Custom",
+        "Pivot"
+      ],
+      "images": [
+        "/images/projects/villa-1.jpg"
+      ],
+      "featuredImage": "/images/projects/villa-1.jpg",
+      "lastEdited": "1 day ago"
+    },
+    {
+      "id": "kafd-tower",
+      "titleEn": "KAFD Tower Offices",
+      "titleAr": "مكاتب أبراج مركز الملك عبدالله المالي",
+      "descEn": "Premium fire-rated doors for the King Abdullah Financial District tower offices, meeting the strictest international safety standards.",
+      "descAr": "أبواب مقاومة للحريق فاخرة لمكاتب أبراج مركز الملك عبدالله المالي، تلبي أصرم المعايير الدولية للسلامة.",
+      "category": "Commercial",
+      "subcategory": "Fire-Rated Panels",
+      "status": "draft",
+      "tags": [
+        "Commercial",
+        "Fire-Rated",
+        "Corporate"
+      ],
+      "images": [
+        "/images/projects/kafd-1.jpg"
+      ],
+      "featuredImage": "/images/projects/kafd-1.jpg",
+      "lastEdited": "5 days ago"
+    },
+    {
+      "id": "diriyah-gate",
+      "titleEn": "Diriyah Gate",
+      "titleAr": "بوابة الدرعية",
+      "descEn": "Cultural heritage project featuring traditional Najdi-inspired wooden doors and archways for the Diriyah Gate development.",
+      "descAr": "مشروع تراث ثقافي يضم أبواب خشبية وأقواس مستوحاة من الطراز النجدي التقليدي لمشروع بوابة الدرعية.",
+      "category": "Cultural",
+      "subcategory": "Traditional Najdi Joinery",
+      "status": "published",
+      "tags": [
+        "Heritage",
+        "Traditional",
+        "Cultural"
+      ],
+      "images": [
+        "/images/projects/diriyah-1.jpg"
+      ],
+      "featuredImage": "/images/projects/diriyah-1.jpg",
+      "lastEdited": "1 week ago"
+    }
+  ],
+  "collections": [
+    {
+      "id": "interior-luxury",
+      "nameEn": "Interior Luxury",
+      "nameAr": "فخامة داخلية",
+      "descEn": "Premium solid wood masterpieces",
+      "descAr": "روائع الخشب الصلب الفاخرة",
+      "image": "/images/collections/interior.jpg",
+      "productCount": 24
+    },
+    {
+      "id": "fire-rated",
+      "nameEn": "Fire Rated Safety",
+      "nameAr": "سلامة مقاومة الحريق",
+      "descEn": "Certified fire-resistant solutions",
+      "descAr": "حلول معتمدة مقاومة للحريق",
+      "image": "/images/collections/fire-rated.jpg",
+      "productCount": 18
+    },
+    {
+      "id": "grand-entrances",
+      "nameEn": "Grand Entrances",
+      "nameAr": "مداخل فخمة",
+      "descEn": "Statement entrance doors",
+      "descAr": "أبواب مداخل مميزة",
+      "image": "/images/collections/entrance.jpg",
+      "productCount": 12
+    },
+    {
+      "id": "custom-architectural",
+      "nameEn": "Custom Architectural",
+      "nameAr": "تصميم معماري مخصص",
+      "descEn": "Bespoke design solutions",
+      "descAr": "حلول تصميم حسب الطلب",
+      "image": "/images/collections/custom.jpg",
+      "productCount": 15
+    }
+  ],
+  "inquiries": [],
+  "orders": []
+}

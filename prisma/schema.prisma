@@ -1,0 +1,87 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Product {
+  id          String   @id
+  nameEn      String
+  nameAr      String
+  descEn      String?
+  descAr      String?
+  category    String?
+  seriesEn    String?
+  seriesAr    String?
+  badges      String[] // Prisma supports String[] for PostgreSQL
+  image       String?
+  images      String[]
+  finishes    Json?    // Store nested finishes as JSON
+  specs       Json?    // Store specs as JSON
+  ref         String?
+  price       Float?
+  priceTiers  Json?    // Store price tiers as JSON
+  showInStore Boolean  @default(false)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model Project {
+  id            String   @id
+  titleEn       String
+  titleAr       String
+  descEn        String?
+  descAr        String?
+  category      String?
+  subcategory   String?
+  status        String?
+  tags          String[]
+  images        String[]
+  featuredImage String?
+  lastEdited    String?
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+}
+
+model Collection {
+  id           String   @id
+  nameEn       String
+  nameAr       String
+  descEn       String?
+  descAr       String?
+  image        String?
+  productCount Int      @default(0)
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+}
+
+model Inquiry {
+  id        String   @id @default(cuid())
+  name      String
+  email     String
+  phone     String?
+  message   String
+  productId String?
+  status    String   @default("pending")
+  createdAt DateTime @default(now())
+}
+
+model Order {
+  id          String   @id @default(cuid())
+  customerName String
+  email       String
+  phone       String?
+  totalAmount Float
+  items       Json
+  status      String   @default("pending")
+  createdAt   DateTime @default(now())
+}
