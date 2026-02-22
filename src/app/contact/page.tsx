@@ -12,7 +12,7 @@ export default function ContactPage() {
     });
     const [status, setStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle');
 
-    const selectedProduct = products[0]; // Default to first product
+    const selectedProduct = products[0] || { id: '', nameEn: 'General Inquiry', nameAr: 'استفسار عام', ref: 'N/A' };
 
     const handleSubmit = async () => {
         if (!formData.name || !formData.phone || !formData.details) {
