@@ -14,7 +14,7 @@ const inventoryItems = [
 const businessItems = [
     // Orders management
     { icon: '🛍️', labelEn: 'Orders', labelAr: 'الطلبات', href: '/admin/orders' },
-    { icon: '💬', labelEn: 'Inquiries', labelAr: 'الاستفسارات', href: '/admin/inquiries', badge: 12 },
+    { icon: '💬', labelEn: 'Inquiries', labelAr: 'الاستفسارات', href: '/admin/inquiries', badge: 0 },
     { icon: '📁', labelEn: 'Projects', labelAr: 'المشاريع', href: '/admin/projects' },
     { icon: '👤', labelEn: 'Clients', labelAr: 'العملاء', href: '/admin/clients' },
 ];
@@ -68,13 +68,34 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
     const { locale, setLocale } = useI18n();
     const pathname = usePathname();
     const [notifications] = useState(3);
+    const [newInquiriesCount, setNewInquiriesCount] = useState(0);
 
     const isRTL = locale === 'ar';
+
+    React.useEffect(() => {
+        const fetchInquiryCount = async () => {
+            try {
+                const res = await fetch('/api/admin/stats');
+                const data = await res.json();
+                if (data.inquiryStats) {
+                    setNewInquiriesCount(data.inquiryStats.new);
+                }
+            } catch (error) {
+                console.error('Failed to fetch inquiry count', error);
+            }
+        };
+        fetchInquiryCount();
+    }, [pathname]);
 
     const isActive = (href: string) => {
         if (href === '/admin') return pathname === '/admin';
         return pathname.startsWith(href);
     };
+
+    // Update businessItems with the dynamic count
+    const dynamicBusinessItems = businessItems.map(item =>
+        item.href === '/admin/inquiries' ? { ...item, badge: newInquiriesCount } : item
+    );
 
     return (
         <div style={{ display: 'flex', minHeight: '100vh', background: '#F5F5F0', direction: isRTL ? 'rtl' : 'ltr' }}>
@@ -116,7 +137,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
 
                     {/* Business */}
                     <SectionLabel labelEn="BUSINESS" labelAr="الأعمال" />
-                    {businessItems.map(item => (
+                    {dynamicBusinessItems.map(item => (
                         <NavItem key={item.href} item={item} isActive={isActive(item.href)} />
                     ))}
 
@@ -130,19 +151,36 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
                 {/* User */}
                 <div style={{
                     padding: '16px', borderTop: '1px solid rgba(255,255,255,0.08)',
-                    display: 'flex', alignItems: 'center', gap: 10,
+                    display: 'flex', flexDirection: 'column', gap: 12,
                 }}>
-                    <div style={{
-                        width: 36, height: 36, borderRadius: '50%',
-                        background: 'rgba(212,160,23,0.2)',
-                        display: 'flex', alignItems: 'center', justifyContent: 'center',
-                        color: 'var(--gold)', fontWeight: 700, fontSize: 13,
-                    }}>AD</div>
-                    <div style={{ flex: 1, minWidth: 0 }}>
-                        <div style={{ fontSize: 13, fontWeight: 600, color: '#fff', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>Admin User</div>
-                        <div style={{ fontSize: 11, color: 'rgba(255,255,255,0.4)' }}>Super Admin</div>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
+                        <div style={{
+                            width: 36, height: 36, borderRadius: '50%',
+                            background: 'rgba(212,160,23,0.2)',
+                            display: 'flex', alignItems: 'center', justifyContent: 'center',
+                            color: 'var(--gold)', fontWeight: 700, fontSize: 13,
+                        }}>AD</div>
+                        <div style={{ flex: 1, minWidth: 0 }}>
+                            <div style={{ fontSize: 13, fontWeight: 600, color: '#fff', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>Admin User</div>
+                            <div style={{ fontSize: 11, color: 'rgba(255,255,255,0.4)' }}>Super Admin</div>
+                        </div>
+                        <Link href="/" style={{ color: 'rgba(255,255,255,0.4)', fontSize: 14, textDecoration: 'none' }}>↗</Link>
                     </div>
-                    <Link href="/" style={{ color: 'rgba(255,255,255,0.4)', fontSize: 14, textDecoration: 'none' }}>↗</Link>
+
+                    <button
+                        onClick={async () => {
+                            await fetch('/api/admin/logout', { method: 'POST' });
+                            window.location.href = '/admin/login';
+                        }}
+                        style={{
+                            width: '100%', padding: '8px', borderRadius: 8,
+                            background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.1)',
+                            color: 'rgba(255,255,255,0.6)', fontSize: 12, fontWeight: 600,
+                            cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 8
+                        }}
+                    >
+                        <span>🚪</span> {locale === 'ar' ? 'تسجيل الخروج' : 'Logout System'}
+                    </button>
                 </div>
             </aside>
 

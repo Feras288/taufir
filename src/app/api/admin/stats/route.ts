@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server';
-import { prisma } from '@/lib/db';
+import prisma from '@/lib/db';
 
 export async function GET() {
     try {
@@ -25,12 +25,12 @@ export async function GET() {
                 prisma.inquiry.findMany({ take: 2, orderBy: { createdAt: 'desc' }, select: { name: true, createdAt: true, id: true } }),
                 prisma.project.findMany({ take: 2, orderBy: { createdAt: 'desc' }, select: { titleEn: true, createdAt: true } }),
                 prisma.order.findMany({ take: 2, orderBy: { createdAt: 'desc' }, select: { customerName: true, totalAmount: true, createdAt: true } }),
-            ]).then(([products, inquiries, projects, orders]) => {
+            ]).then(([productsData, inquiriesData, projectsData, ordersData]) => {
                 const activities = [
-                    ...products.map(p => ({ icon: '📦', text: `New product "${p.nameEn}" added`, time: p.createdAt })),
-                    ...inquiries.map(i => ({ icon: '💬', text: `Inquiry received from ${i.name}`, time: i.createdAt })),
-                    ...projects.map(p => ({ icon: '✅', text: `Project "${p.titleEn}" added/updated`, time: p.createdAt })),
-                    ...orders.map(o => ({ icon: '📋', text: `New order from ${o.customerName} for ${o.totalAmount} SAR`, time: o.createdAt })),
+                    ...productsData.map((p: any) => ({ icon: '📦', text: `New product "${p.nameEn}" added`, time: p.createdAt })),
+                    ...inquiriesData.map((i: any) => ({ icon: '💬', text: `Inquiry received from ${i.name}`, time: i.createdAt })),
+                    ...projectsData.map((p: any) => ({ icon: '✅', text: `Project "${p.titleEn}" added/updated`, time: p.createdAt })),
+                    ...ordersData.map((o: any) => ({ icon: '📋', text: `New order from ${o.customerName} for ${o.totalAmount} SAR`, time: o.createdAt })),
                 ];
                 return activities
                     .sort((a, b) => new Date(b.time).getTime() - new Date(a.time).getTime())
@@ -52,14 +52,14 @@ export async function GET() {
                 projectCount,
                 orderCount,
             },
-            recentInquiries: recentInquiries.map(inq => ({
+            recentInquiries: recentInquiries.map((inq: any) => ({
                 id: `#INQ-${inq.id.slice(-4).toUpperCase()}`,
                 client: inq.name,
                 product: inq.productId || 'General Inquiry',
                 status: inq.status === 'pending' ? 'New' : inq.status === 'read' ? 'In Progress' : 'Contacted',
                 time: inq.createdAt
             })),
-            recentActivity: recentActivity.map(a => ({
+            recentActivity: recentActivity.map((a: any) => ({
                 ...a,
                 time: formatRelativeTime(a.time)
             })),
