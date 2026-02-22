@@ -4,29 +4,40 @@ import React from 'react';
 import Link from 'next/link';
 import { useI18n } from '@/lib/i18n';
 
-const stats = [
-    { labelEn: 'Total Products', labelAr: 'إجمالي المنتجات', value: '42', icon: '📦', change: '+3 this month', color: '#D4A017' },
-    { labelEn: 'Active Inquiries', labelAr: 'استفسارات نشطة', value: '12', icon: '💬', change: 'Requires attention', color: '#3182CE' },
-    { labelEn: 'Projects', labelAr: 'المشاريع', value: '18', icon: '📁', change: '4 in progress', color: '#38A169' },
-    { labelEn: 'Clients', labelAr: 'العملاء', value: '156', icon: '👤', change: '+8 this month', color: '#805AD5' },
-];
-
-const recentInquiries = [
-    { id: '#INQ-2045', client: 'Faisal Al-Saud', product: 'Grand Entrance Villa Door', status: 'New', time: '2 mins ago' },
-    { id: '#INQ-2042', client: 'Mohammed Al-Harbi', product: 'Fire-Rated Safety Door', status: 'In Progress', time: 'Yesterday' },
-    { id: '#INQ-2040', client: 'China Construction', product: 'Custom Joinery', status: 'Contacted', time: 'Oct 24, 2024' },
-];
-
-const recentActivity = [
-    { icon: '📦', text: 'New product "Royal Mahogany Interior" added', time: '2 hours ago' },
-    { icon: '💬', text: 'Inquiry #INQ-2045 received from Faisal Al-Saud', time: '2 mins ago' },
-    { icon: '✅', text: 'Project "Red Sea Hotel" marked as completed', time: '1 day ago' },
-    { icon: '👤', text: 'New client "Al-Waha Group" registered', time: '3 days ago' },
-    { icon: '📋', text: 'Certification ISO 9001 renewed', time: '1 week ago' },
-];
-
 export default function AdminDashboard() {
     const { locale } = useI18n();
+    const [stats, setStats] = React.useState<any[]>([]);
+    const [recentInquiries, setRecentInquiries] = React.useState<any[]>([]);
+    const [recentActivity, setRecentActivity] = React.useState<any[]>([]);
+    const [loading, setLoading] = React.useState(true);
+
+    React.useEffect(() => {
+        const fetchStats = async () => {
+            try {
+                const res = await fetch('/api/admin/stats');
+                const data = await res.json();
+                if (data.overview) {
+                    setStats([
+                        { labelEn: 'Total Products', labelAr: 'إجمالي المنتجات', value: data.overview.productCount.toString(), icon: '📦', change: '', color: '#D4A017' },
+                        { labelEn: 'Active Inquiries', labelAr: 'استفسارات نشطة', value: data.overview.inquiryCount.toString(), icon: '💬', change: '', color: '#3182CE' },
+                        { labelEn: 'Projects', labelAr: 'المشاريع', value: data.overview.projectCount.toString(), icon: '📁', change: '', color: '#38A169' },
+                        { labelEn: 'Total Orders', labelAr: 'إجمالي الطلبات', value: data.overview.orderCount.toString(), icon: '📋', change: '', color: '#805AD5' },
+                    ]);
+                    setRecentInquiries(data.recentInquiries || []);
+                    setRecentActivity(data.recentActivity || []);
+                }
+            } catch (error) {
+                console.error('Failed to fetch stats', error);
+            } finally {
+                setLoading(false);
+            }
+        };
+        fetchStats();
+    }, []);
+
+    if (loading) {
+        return <div style={{ padding: 40, textAlign: 'center', color: '#888' }}>Loading Dashboard...</div>;
+    }
 
     return (
         <div style={{ padding: 24 }}>
@@ -41,7 +52,7 @@ export default function AdminDashboard() {
             </div>
 
             {/* Stats Cards */}
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 16, marginBottom: 28 }}>
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: 16, marginBottom: 28 }}>
                 {stats.map((s, i) => (
                     <div key={i} style={{
                         background: '#fff', borderRadius: 12, padding: '20px',
@@ -54,12 +65,12 @@ export default function AdminDashboard() {
                             <span style={{ fontSize: 20 }}>{s.icon}</span>
                         </div>
                         <p style={{ fontSize: 32, fontWeight: 800, color: '#1A1A1A', marginBottom: 4 }}>{s.value}</p>
-                        <p style={{ fontSize: 12, color: s.color, fontWeight: 500 }}>{s.change}</p>
+                        {s.change && <p style={{ fontSize: 12, color: s.color, fontWeight: 500 }}>{s.change}</p>}
                     </div>
                 ))}
             </div>
 
-            <div style={{ display: 'grid', gridTemplateColumns: '2fr 1fr', gap: 20 }}>
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: 20 }}>
                 {/* Recent Inquiries */}
                 <div style={{ background: '#fff', borderRadius: 12, border: '1px solid #E8E8E4', overflow: 'hidden' }}>
                     <div style={{ padding: '16px 20px', borderBottom: '1px solid #E8E8E4', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
@@ -71,26 +82,32 @@ export default function AdminDashboard() {
                         </Link>
                     </div>
                     <div>
-                        {recentInquiries.map((inq, i) => (
-                            <div key={i} style={{
-                                padding: '14px 20px', borderBottom: i < recentInquiries.length - 1 ? '1px solid #F0F0EC' : 'none',
-                                display: 'flex', alignItems: 'center', gap: 16,
-                            }}>
-                                <span style={{ fontSize: 13, fontWeight: 700, color: 'var(--gold)', minWidth: 80 }}>{inq.id}</span>
-                                <div style={{ flex: 1 }}>
-                                    <p style={{ fontSize: 14, fontWeight: 600, color: '#1A1A1A' }}>{inq.client}</p>
-                                    <p style={{ fontSize: 12, color: '#888' }}>{inq.product}</p>
-                                </div>
-                                <span style={{
-                                    padding: '4px 12px', borderRadius: 20, fontSize: 12, fontWeight: 600,
-                                    background: inq.status === 'New' ? '#E8F5E9' : inq.status === 'In Progress' ? '#FFF3E0' : '#E3F2FD',
-                                    color: inq.status === 'New' ? '#2E7D32' : inq.status === 'In Progress' ? '#E65100' : '#1565C0',
-                                }}>
-                                    {inq.status}
-                                </span>
-                                <span style={{ fontSize: 12, color: '#999', minWidth: 80, textAlign: 'right' }}>{inq.time}</span>
+                        {recentInquiries.length === 0 ? (
+                            <div style={{ padding: 40, textAlign: 'center', color: '#888', fontSize: 14 }}>
+                                {locale === 'ar' ? 'لا يوجد استفسارات حالية' : 'No recent inquiries.'}
                             </div>
-                        ))}
+                        ) : (
+                            recentInquiries.map((inq, i) => (
+                                <div key={i} style={{
+                                    padding: '14px 20px', borderBottom: i < recentInquiries.length - 1 ? '1px solid #F0F0EC' : 'none',
+                                    display: 'flex', alignItems: 'center', gap: 16,
+                                }}>
+                                    <span style={{ fontSize: 13, fontWeight: 700, color: 'var(--gold)', minWidth: 80 }}>{inq.id}</span>
+                                    <div style={{ flex: 1 }}>
+                                        <p style={{ fontSize: 14, fontWeight: 600, color: '#1A1A1A' }}>{inq.client}</p>
+                                        <p style={{ fontSize: 12, color: '#888' }}>{inq.product}</p>
+                                    </div>
+                                    <span style={{
+                                        padding: '4px 12px', borderRadius: 20, fontSize: 12, fontWeight: 600,
+                                        background: inq.status === 'New' ? '#E8F5E9' : inq.status === 'In Progress' ? '#FFF3E0' : '#E3F2FD',
+                                        color: inq.status === 'New' ? '#2E7D32' : inq.status === 'In Progress' ? '#E65100' : '#1565C0',
+                                    }}>
+                                        {inq.status}
+                                    </span>
+                                    {/* <span style={{ fontSize: 12, color: '#999', minWidth: 80, textAlign: 'right' }}>{inq.time}</span> */}
+                                </div>
+                            ))
+                        )}
                     </div>
                 </div>
 
@@ -102,18 +119,25 @@ export default function AdminDashboard() {
                         </h2>
                     </div>
                     <div style={{ padding: '8px 0' }}>
-                        {recentActivity.map((a, i) => (
-                            <div key={i} style={{ padding: '10px 20px', display: 'flex', gap: 12, alignItems: 'flex-start' }}>
-                                <span style={{ fontSize: 14, marginTop: 2 }}>{a.icon}</span>
-                                <div style={{ flex: 1 }}>
-                                    <p style={{ fontSize: 13, color: '#333', lineHeight: 1.5 }}>{a.text}</p>
-                                    <p style={{ fontSize: 11, color: '#999', marginTop: 2 }}>{a.time}</p>
-                                </div>
+                        {recentActivity.length === 0 ? (
+                            <div style={{ padding: 40, textAlign: 'center', color: '#888', fontSize: 14 }}>
+                                {locale === 'ar' ? 'لا يوجد نشاط مسجل' : 'No recent activity.'}
                             </div>
-                        ))}
+                        ) : (
+                            recentActivity.map((a, i) => (
+                                <div key={i} style={{ padding: '10px 20px', display: 'flex', gap: 12, alignItems: 'flex-start' }}>
+                                    <span style={{ fontSize: 14, marginTop: 2 }}>{a.icon}</span>
+                                    <div style={{ flex: 1 }}>
+                                        <p style={{ fontSize: 13, color: '#333', lineHeight: 1.5 }}>{a.text}</p>
+                                        <p style={{ fontSize: 11, color: '#999', marginTop: 2 }}>{a.time}</p>
+                                    </div>
+                                </div>
+                            ))
+                        )}
                     </div>
                 </div>
             </div>
         </div>
     );
 }
+

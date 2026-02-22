@@ -27,6 +27,7 @@ const statusColors: Record<string, { bg: string; color: string }> = {
 export default function InquiriesPage() {
     const { locale } = useI18n();
     const [inquiries, setInquiries] = useState<Inquiry[]>([]);
+    const [stats, setStats] = useState<any[]>([]);
     const [loading, setLoading] = useState(true);
     const [expandedId, setExpandedId] = useState<string | null>(null);
     const [statusFilter, setStatusFilter] = useState('All');
@@ -35,22 +36,38 @@ export default function InquiriesPage() {
     useEffect(() => {
         const fetchInquiries = async () => {
             try {
-                const res = await fetch('/api/inquiries');
-                if (res.ok) {
-                    const data: ApiInquiry[] = await res.json();
+                const [inqRes, statsRes] = await Promise.all([
+                    fetch('/api/inquiries'),
+                    fetch('/api/admin/stats')
+                ]);
+
+                if (inqRes.ok) {
+                    const data: ApiInquiry[] = await inqRes.json();
                     const mapped: Inquiry[] = data.map(item => ({
                         id: item.id,
                         clientName: item.name,
-                        clientEmail: item.email || item.phone, // Fallback to phone if email empty
+                        clientEmail: item.email || item.phone || '',
                         clientInitials: item.name.split(' ').map(n => n[0]).join('').substring(0, 2).toUpperCase(),
-                        productName: item.productName || 'General Inquiry',
-                        productDetail: item.company || 'Personal Request',
-                        status: item.status === 'new' ? 'New' : item.status === 'read' ? 'In Progress' : 'Contacted',
-                        date: new Date(item.date).toLocaleDateString(),
-                        message: item.details,
+                        productName: item.productId || 'General Inquiry',
+                        productDetail: item.message.substring(0, 30) + '...',
+                        status: (item.status === 'pending' ? 'New' : item.status === 'read' ? 'In Progress' : 'Contacted') as Inquiry['status'],
+                        date: new Date(item.createdAt || '').toLocaleDateString(),
+                        message: item.message,
                         internalNotes: '',
                     }));
                     setInquiries(mapped);
+                }
+
+                if (statsRes.ok) {
+                    const sData = await statsRes.json();
+                    if (sData.inquiryStats) {
+                        setStats([
+                            { labelEn: 'Total Inquiries', labelAr: 'إجمالي الاستفسارات', value: sData.inquiryStats.total.toString(), icon: '📋', subEn: '', subAr: '', color: 'var(--gold)' },
+                            { labelEn: 'New / Unread', labelAr: 'جديد / غير مقروء', value: sData.inquiryStats.new.toString(), icon: '✉', subEn: 'Requires attention', subAr: 'تتطلب انتباه', color: '#3182CE' },
+                            { labelEn: 'In Progress', labelAr: 'قيد التنفيذ', value: sData.inquiryStats.inProgress.toString(), icon: '🔄', subEn: 'Active discussions', subAr: 'مناقشات نشطة', color: '#DD6B20' },
+                            { labelEn: 'Contacted', labelAr: 'تم التواصل', value: (sData.inquiryStats.closed || 0).toString(), icon: '✅', subEn: 'Total completed', subAr: 'إجمالي المكتملة', color: '#38A169' },
+                        ]);
+                    }
                 }
             } catch (error) {
                 console.error('Failed to fetch inquiries', error);
@@ -61,12 +78,7 @@ export default function InquiriesPage() {
         fetchInquiries();
     }, []);
 
-    const stats = [
-        { labelEn: 'Total Inquiries', labelAr: 'إجمالي الاستفسارات', value: '1,248', icon: '📋', subEn: '↗ +12% this month', subAr: '↗ +12٪ هذا الشهر', color: 'var(--gold)' },
-        { labelEn: 'New / Unread', labelAr: 'جديد / غير مقروء', value: '12', icon: '✉', subEn: 'Requires attention', subAr: 'تتطلب انتباه', color: '#3182CE' },
-        { labelEn: 'In Progress', labelAr: 'قيد التنفيذ', value: '45', icon: '🔄', subEn: 'Active discussions', subAr: 'مناقشات نشطة', color: '#DD6B20' },
-        { labelEn: 'Closed Deals', labelAr: 'صفقات مغلقة', value: '892', icon: '✅', subEn: 'Total completed', subAr: 'إجمالي المكتملة', color: '#38A169' },
-    ];
+
 
     const filteredInquiries = inquiries.filter(inq => {
         if (statusFilter !== 'All' && inq.status !== statusFilter) return false;

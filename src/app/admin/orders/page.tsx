@@ -87,8 +87,8 @@ export default function OrdersManagement() {
                                 key={order.id}
                                 onClick={() => setSelectedOrder(order)}
                                 className={`p-4 mb-2 rounded-lg cursor-pointer border transition-all ${selectedOrder?.id === order.id
-                                        ? 'border-[var(--gold)] bg-[#FFFBF0]'
-                                        : 'border-transparent hover:bg-gray-50'
+                                    ? 'border-[var(--gold)] bg-[#FFFBF0]'
+                                    : 'border-transparent hover:bg-gray-50'
                                     }`}
                             >
                                 <div className="flex justify-between items-start mb-2">
@@ -106,12 +106,12 @@ export default function OrdersManagement() {
                                     </span>
                                 </div>
                                 <h3 className="font-bold text-[#1A1A1A] text-sm mb-1">
-                                    {order.customer.firstName} {order.customer.lastName}
+                                    {order.customerName}
                                 </h3>
                                 <div className="flex justify-between items-center text-xs text-gray-400">
-                                    <span>{new Date(order.date).toLocaleDateString()}</span>
+                                    <span>{new Date(order.createdAt || '').toLocaleDateString()}</span>
                                     <span className="font-bold text-[#1A1A1A]">
-                                        {order.total.toLocaleString()} SAR
+                                        {(order.totalAmount || 0).toLocaleString()} SAR
                                     </span>
                                 </div>
                             </div>
@@ -134,15 +134,15 @@ export default function OrdersManagement() {
                                     <span
                                         className="px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wide"
                                         style={{
-                                            backgroundColor: statusColors[selectedOrder.status]?.bg,
-                                            color: statusColors[selectedOrder.status]?.text
+                                            backgroundColor: statusColors[selectedOrder.status as keyof typeof statusColors]?.bg || '#eee',
+                                            color: statusColors[selectedOrder.status as keyof typeof statusColors]?.text || '#666'
                                         }}
                                     >
                                         {selectedOrder.status}
                                     </span>
                                 </div>
                                 <p className="text-sm text-gray-500">
-                                    Placed on {new Date(selectedOrder.date).toLocaleString()}
+                                    Placed on {new Date(selectedOrder.createdAt || '').toLocaleString()}
                                 </p>
                             </div>
 
@@ -152,7 +152,7 @@ export default function OrdersManagement() {
                                 disabled={statusUpdating}
                                 className="bg-white border border-gray-300 text-gray-700 py-2 px-4 rounded-lg font-medium shadow-sm focus:outline-none focus:ring-2 focus:ring-[var(--gold)]"
                             >
-                                <option value="new">New</option>
+                                <option value="pending">New</option>
                                 <option value="processing">Processing</option>
                                 <option value="completed">Completed</option>
                                 <option value="cancelled">Cancelled</option>
@@ -168,7 +168,7 @@ export default function OrdersManagement() {
                                         {locale === 'ar' ? 'المنتجات' : 'Items'}
                                     </div>
                                     <div className="divide-y divide-gray-100">
-                                        {selectedOrder.items.map((item, idx) => (
+                                        {Array.isArray(selectedOrder.items) && selectedOrder.items.map((item: any, idx) => (
                                             <div key={idx} className="p-4 flex items-center gap-4">
                                                 <div className="w-12 h-12 bg-gray-100 rounded-lg flex items-center justify-center text-xl">
                                                     📦
@@ -187,7 +187,7 @@ export default function OrdersManagement() {
                                     </div>
                                     <div className="p-4 bg-gray-50 border-t border-[#E8E8E4] flex justify-between items-center">
                                         <span className="font-bold text-gray-600">Total</span>
-                                        <span className="font-bold text-xl text-[#1A1A1A]">{selectedOrder.total.toLocaleString()} SAR</span>
+                                        <span className="font-bold text-xl text-[#1A1A1A]">{(selectedOrder.totalAmount || 0).toLocaleString()} SAR</span>
                                     </div>
                                 </div>
                             </div>
@@ -202,31 +202,16 @@ export default function OrdersManagement() {
                                     <div className="space-y-3 text-sm">
                                         <div>
                                             <div className="font-bold text-[#1A1A1A]">
-                                                {selectedOrder.customer.firstName} {selectedOrder.customer.lastName}
+                                                {selectedOrder.customerName}
                                             </div>
-                                            <div className="text-gray-500">{selectedOrder.customer.email}</div>
-                                            <div className="text-gray-500">{selectedOrder.customer.phone}</div>
+                                            <div className="text-gray-500">{selectedOrder.email}</div>
+                                            <div className="text-gray-500">{selectedOrder.phone}</div>
                                         </div>
-                                        <hr className="border-gray-100" />
-                                        <div>
-                                            <div className="text-gray-500 mb-1">Shipping Address:</div>
-                                            <div className="text-[#1A1A1A] leading-relaxed">
-                                                {selectedOrder.customer.address}<br />
-                                                {selectedOrder.customer.city}
-                                            </div>
-                                        </div>
-                                        {selectedOrder.customer.notes && (
-                                            <>
-                                                <hr className="border-gray-100" />
-                                                <div className="bg-yellow-50 p-3 rounded text-yellow-800 text-xs">
-                                                    "{selectedOrder.customer.notes}"
-                                                </div>
-                                            </>
-                                        )}
                                     </div>
                                 </div>
                             </div>
                         </div>
+
 
                     </div>
                 ) : (
