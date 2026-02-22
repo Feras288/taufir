@@ -93,7 +93,8 @@ export default function StorePage() {
                                             src={product.image || '/images/placeholder.jpg'}
                                             alt={locale === 'ar' ? product.nameAr : product.nameEn}
                                             fill
-                                            className="object-cover"
+                                            className="object-contain p-4"
+
                                         />
                                         {product.badges?.[0] && (
                                             <div className="absolute top-4 left-4 bg-[#1A1A1A] text-white text-xs font-bold px-3 py-1 rounded-full">

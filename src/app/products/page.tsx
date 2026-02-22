@@ -102,10 +102,11 @@ export default function ProductsPage() {
                                 >
                                     <div className="card" style={{ cursor: 'pointer', overflow: 'hidden' }}>
                                         <div style={{
-                                            height: 240,
                                             background: product.image
-                                                ? `url(${product.image}) center/cover no-repeat`
+                                                ? `url(${product.image}) center/contain no-repeat`
                                                 : 'linear-gradient(135deg, #8B6914 0%, #D4A017 50%, #B8860B 100%)',
+                                            backgroundColor: '#f6f6f6',
+
                                             position: 'relative',
                                         }}>
                                             <div style={{

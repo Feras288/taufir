@@ -19,6 +19,8 @@ export default function ProductDetailPage() {
     const [quantity, setQuantity] = useState(1);
     const [openSection, setOpenSection] = useState('specs');
     const [loading, setLoading] = useState(true);
+    const [isLightboxOpen, setIsLightboxOpen] = useState(false);
+
 
     useEffect(() => {
         fetch('/api/products', { cache: 'no-store' })
@@ -103,19 +105,23 @@ export default function ProductDetailPage() {
                                             <img
                                                 src={currentImage}
                                                 alt={locale === 'ar' ? product.nameAr : product.nameEn}
-                                                style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+                                                style={{ width: '100%', height: '100%', objectFit: 'contain', padding: 20 }}
                                             />
                                         ) : (
                                             <div style={{ color: 'rgba(255,255,255,0.25)', fontSize: 120 }}>🚪</div>
                                         )}
-                                        <button style={{
-                                            position: 'absolute', bottom: 16, right: 16,
-                                            width: 40, height: 40, borderRadius: 10,
-                                            background: 'rgba(255,255,255,0.9)', border: 'none',
-                                            cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center',
-                                            fontSize: 18, boxShadow: '0 2px 8px rgba(0,0,0,0.1)',
-                                        }}>🔍</button>
+                                        <button
+                                            onClick={() => setIsLightboxOpen(true)}
+                                            style={{
+                                                position: 'absolute', bottom: 16, right: 16,
+                                                width: 40, height: 40, borderRadius: 10,
+                                                background: 'rgba(255,255,255,0.9)', border: 'none',
+                                                cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center',
+                                                fontSize: 18, boxShadow: '0 2px 8px rgba(0,0,0,0.1)',
+                                                zIndex: 10
+                                            }}>🔍</button>
                                     </div>
+
 
                                     {/* Thumbnails - only show if there are 2+ images */}
                                     {allImages.length > 1 && (
@@ -460,10 +466,12 @@ export default function ProductDetailPage() {
                                         <div style={{
                                             borderRadius: 16, overflow: 'hidden',
                                             background: p.image
-                                                ? `url(${p.image}) center/cover no-repeat`
+                                                ? `url(${p.image}) center/contain no-repeat`
                                                 : 'linear-gradient(135deg, #8B6914, #C8944A, #D4A017)',
+                                            backgroundColor: '#f6f6f6',
                                             height: 320, marginBottom: 14,
                                         }} />
+
                                         <h3 style={{ fontSize: 17, fontWeight: 700, color: 'var(--charcoal)', marginBottom: 4 }}>
                                             {locale === 'ar' ? p.nameAr : p.nameEn}
                                         </h3>
@@ -477,6 +485,68 @@ export default function ProductDetailPage() {
                     </div>
                 </div>
             </div>
+
+            {/* Lightbox Modal */}
+            {isLightboxOpen && (
+                <div
+                    onClick={() => setIsLightboxOpen(false)}
+                    style={{
+                        position: 'fixed', top: 0, left: 0, width: '100vw', height: '100vh',
+                        background: 'rgba(0,0,0,0.9)', zIndex: 9999, display: 'flex',
+                        alignItems: 'center', justifyContent: 'center', padding: 24, cursor: 'zoom-out'
+                    }}>
+                    <button
+                        onClick={() => setIsLightboxOpen(false)}
+                        style={{
+                            position: 'absolute', top: 24, right: 24, background: 'none',
+                            border: 'none', color: 'white', fontSize: 32, cursor: 'pointer'
+                        }}>✕</button>
+                    {(() => {
+                        const allImages = [product.image, ...(product.images || [])].filter(Boolean);
+                        const currentImage = allImages[selectedImageIndex] || allImages[0] || '';
+                        return (
+                            <img
+                                src={currentImage}
+                                alt=""
+                                onClick={(e) => e.stopPropagation()}
+                                style={{
+                                    maxWidth: '100%', maxHeight: '100%',
+                                    objectFit: 'contain', cursor: 'default', borderRadius: 8
+                                }}
+                            />
+                        );
+                    })()}
+
+                    {/* Lightbox Controls */}
+                    {(() => {
+                        const allImages = [product.image, ...(product.images || [])].filter(Boolean);
+                        if (allImages.length <= 1) return null;
+                        return (
+                            <div
+                                onClick={(e) => e.stopPropagation()}
+                                style={{
+                                    position: 'absolute', bottom: 40, display: 'flex', gap: 20
+                                }}>
+                                <button
+                                    onClick={() => setSelectedImageIndex((selectedImageIndex - 1 + allImages.length) % allImages.length)}
+                                    style={{
+                                        background: 'rgba(255,255,255,0.1)', border: '1px solid rgba(255,255,255,0.2)',
+                                        color: 'white', padding: '8px 24px', borderRadius: 40, cursor: 'pointer',
+                                        fontSize: 20
+                                    }}>←</button>
+                                <button
+                                    onClick={() => setSelectedImageIndex((selectedImageIndex + 1) % allImages.length)}
+                                    style={{
+                                        background: 'rgba(255,255,255,0.1)', border: '1px solid rgba(255,255,255,0.2)',
+                                        color: 'white', padding: '8px 24px', borderRadius: 40, cursor: 'pointer',
+                                        fontSize: 20
+                                    }}>→</button>
+                            </div>
+                        );
+                    })()}
+                </div>
+            )}
         </ClientLayout>
     );
 }
+
