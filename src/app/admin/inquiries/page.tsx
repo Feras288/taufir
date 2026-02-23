@@ -6,8 +6,10 @@ import type { Inquiry as ApiInquiry } from '@/data/index';
 
 interface Inquiry {
     id: string;
+    shortId: string;
     clientName: string;
     clientEmail: string;
+    clientPhone: string;
     clientInitials: string;
     productName: string;
     productDetail: string;
@@ -45,8 +47,10 @@ export default function InquiriesPage() {
                     const data: ApiInquiry[] = await inqRes.json();
                     const mapped: Inquiry[] = data.map(item => ({
                         id: item.id,
+                        shortId: item.id.substring(item.id.length - 6).toUpperCase(),
                         clientName: item.name,
-                        clientEmail: item.email || item.phone || '',
+                        clientEmail: item.email || '',
+                        clientPhone: item.phone || '',
                         clientInitials: item.name.split(' ').map(n => n[0]).join('').substring(0, 2).toUpperCase(),
                         productName: item.productId || 'General Inquiry',
                         productDetail: item.message.substring(0, 30) + '...',
@@ -166,12 +170,13 @@ export default function InquiriesPage() {
             <div style={{ background: '#fff', borderRadius: 12, border: '1px solid #E8E8E4', overflow: 'hidden' }}>
                 {/* Header */}
                 <div style={{
-                    display: 'grid', gridTemplateColumns: '80px 1fr 1fr 130px 120px 60px',
+                    display: 'grid', gridTemplateColumns: '80px 1.2fr 180px 1.2fr 130px 120px 60px',
                     padding: '12px 20px', borderBottom: '1px solid #E8E8E4',
                     fontSize: 11, fontWeight: 700, color: '#888', textTransform: 'uppercase', letterSpacing: 0.5,
                 }}>
                     <span>ID</span>
                     <span>{locale === 'ar' ? 'تفاصيل العميل' : 'Client Details'}</span>
+                    <span>{locale === 'ar' ? 'رقم الهاتف' : 'Phone Number'}</span>
                     <span>{locale === 'ar' ? 'المنتج المطلوب' : 'Product Interest'}</span>
                     <span>{locale === 'ar' ? 'الحالة' : 'Status'}</span>
                     <span>{locale === 'ar' ? 'التاريخ' : 'Date'}</span>
@@ -193,7 +198,7 @@ export default function InquiriesPage() {
                             {/* Main Row */}
                             <div
                                 style={{
-                                    display: 'grid', gridTemplateColumns: '80px 1fr 1fr 130px 120px 60px',
+                                    display: 'grid', gridTemplateColumns: '80px 1.2fr 180px 1.2fr 130px 120px 60px',
                                     padding: '16px 20px', borderBottom: '1px solid #F0F0EC',
                                     alignItems: 'center', cursor: 'pointer',
                                     background: expandedId === inq.id ? '#FAFAF8' : '#fff',
@@ -201,7 +206,7 @@ export default function InquiriesPage() {
                                 }}
                                 onClick={() => setExpandedId(expandedId === inq.id ? null : inq.id)}
                             >
-                                <span style={{ fontSize: 13, fontWeight: 700, color: 'var(--gold)' }}>#{inq.id.replace('INQ-', '')}</span>
+                                <span style={{ fontSize: 13, fontWeight: 700, color: 'var(--gold)' }}>#{inq.shortId}</span>
                                 <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
                                     <div style={{
                                         width: 36, height: 36, borderRadius: '50%', background: '#F0F0EC',
@@ -213,6 +218,7 @@ export default function InquiriesPage() {
                                         <p style={{ fontSize: 12, color: '#999' }}>{inq.clientEmail}</p>
                                     </div>
                                 </div>
+                                <span style={{ fontSize: 14, fontWeight: 600, color: '#1A1A1A' }}>{inq.clientPhone}</span>
                                 <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
                                     <div style={{
                                         width: 40, height: 40, borderRadius: 8, background: 'linear-gradient(135deg, #8B6914, #D4A017)',
@@ -306,13 +312,19 @@ export default function InquiriesPage() {
                                         }}>
                                             ✉ Reply via Email
                                         </button>
-                                        <button style={{
-                                            width: '100%', padding: '12px', borderRadius: 10,
-                                            border: '2px solid #25D366', background: '#F0FFF4',
-                                            fontSize: 14, fontWeight: 600, cursor: 'pointer',
-                                            display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 8,
-                                            color: '#25D366', marginBottom: 8,
-                                        }}>
+                                        <button
+                                            onClick={(e) => {
+                                                e.stopPropagation();
+                                                window.open(`https://wa.me/${inq.clientPhone.replace(/\D/g, '')}`, '_blank');
+                                            }}
+                                            style={{
+                                                width: '100%', padding: '12px', borderRadius: 10,
+                                                border: '2px solid #25D366', background: '#F0FFF4',
+                                                fontSize: 14, fontWeight: 600, cursor: 'pointer',
+                                                display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 8,
+                                                color: '#25D366', marginBottom: 8,
+                                            }}
+                                        >
                                             💬 Chat on WhatsApp
                                         </button>
                                         <button style={{

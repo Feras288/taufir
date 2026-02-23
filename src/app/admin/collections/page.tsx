@@ -35,8 +35,11 @@ export default function AdminCollectionsPage() {
                     >
                         <div style={{
                             height: 160,
-                            background: 'linear-gradient(135deg, #8B6914, #D4A017)',
-                        }} />
+                            background: col.image ? `url(${col.image}) center/cover` : 'linear-gradient(135deg, #8B6914, #D4A017)',
+                            position: 'relative',
+                        }}>
+                            {col.image && <div style={{ position: 'absolute', inset: 0, background: 'rgba(0,0,0,0.1)' }} />}
+                        </div>
                         <div style={{ padding: 20 }}>
                             <h3 style={{ fontSize: 18, fontWeight: 700, marginBottom: 4 }}>
                                 {locale === 'ar' ? col.nameAr : col.nameEn}
